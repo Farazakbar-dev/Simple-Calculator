@@ -25,6 +25,28 @@ def divide(num1, num2):
 def exp(num1, num2): 
     return num1 ** num2
 
+# Here goes the option list [calculation or history]
+options_list = ["calculate", "history", "exit"]
+def menu(): 
+    while True: 
+        option = input(f"Select one option from {options_list}").strip().lower()
+        if option in options_list: 
+            if option == "calculate": 
+                calculate()
+            elif option == "history": 
+                if history: 
+                    for num, entry in enumerate(history, 1): 
+                        print (f"{num}: {entry}")
+                else: 
+                    print("No history!")
+            elif option == "exit": 
+                print("-----------------------------\nThank you for using calculator!")
+                break
+            
+        else: 
+            print(f"Please select an option from {options_list}")
+                
+    
 # function get number
 def get_number(): 
     while True: 
@@ -42,7 +64,7 @@ def get_number():
 
 def get_operator():
     while True: 
-        char = input(f"Please select the character from {characters}: ")
+        char = input(f"Please select the character from {characters}: ").strip()
         if char in characters: 
             return char
         else:        
@@ -73,21 +95,14 @@ def calculate():
         result = exp(num1,num2) 
     string = f"{num1} {char} {num2} = {result}"
     history.append(string)
-    return result
+    print(f"Result: {round(result, 2)}")
 
+menu()
 
+ 
 
-while True: 
-    result =  calculate()
-    print(f"Result: {result:.2f}")   
-    prompt = input("Calculate again (Yes/No): ")
-    if prompt.lower() == 'yes': 
-        continue
-    break 
-
-want_history = input("Enter H for history (or any key to exit): ")
-if want_history.lower() == 'h': 
-    print("\n",history)
-    print("-----------------------------\nThank you for using calculator!")
-else: 
-    print("-------------------------------\nThank you for using calculator!")
+# New Objectives: 
+    # 1. List some options such as Calculate, History etc.. // Done
+    # 2. Users should be able to view the history without even jumping to calculations // Done
+    # 3. Users should be able to edit the history (delete)
+    
