@@ -1,8 +1,7 @@
 print("\n************************* Python Calculator***********************************\n")
-
-
 characters = ['+', '-', '*', '/', '**']
-
+history = [] 
+options_list = ["calculate", "history", "exit"]
 # Add function
 def add(num1, num2): 
     return num1 + num2
@@ -25,35 +24,28 @@ def divide(num1, num2):
 def exp(num1, num2): 
     return num1 ** num2
 
-# Here goes the option list [calculation or history]
-options_list = ["calculate", "history", "exit"]
-def menu(): 
+
+# Main function
+def main(): 
     while True: 
         option = input(f"Select one option from {options_list}").strip().lower()
-        if option in options_list: 
-            if option == "calculate": 
-                calculate()
-            elif option == "history": 
-                if history: 
-                    for num, entry in enumerate(history, 1): 
-                        print (f"{num}: {entry}")
-                else: 
-                    print("No history!")
-            elif option == "exit": 
-                print("-----------------------------\nThank you for using calculator!")
-                break
-            
+
+        if option == "calculate" or option == 'c': 
+            calculate()
+        elif option == "history" or option == 'h': 
+            show_history()
+        elif option == "exit" or option == 'e': 
+            print("-----------------------------\nThank you for using calculator!")
+            break           
         else: 
             print(f"Please select an option from {options_list}")
                 
     
-# function get number
+# function to get number from user
 def get_number(): 
     while True: 
         try: 
             number = float(input("Enter number: "))
-            if number < 0: 
-                raise ValueError
         except ValueError: 
             print("Invalid Input! Enter a positive number")
         else: 
@@ -61,7 +53,7 @@ def get_number():
             break
     return number
 
-
+#operator function takes operator as input from user
 def get_operator():
     while True: 
         char = input(f"Please select the character from {characters}: ").strip()
@@ -70,7 +62,16 @@ def get_operator():
         else:        
                 print(f"{char} is not in {characters}")
     
-history = [] 
+
+# history functions prints history
+def show_history(): 
+    if history: 
+        for num, entry in enumerate(history, 1): 
+            print (f"{num}: {entry}")
+    else: 
+        print("No history!")
+        
+# Calculate function
 def calculate():
     
     char = get_operator() 
@@ -87,22 +88,17 @@ def calculate():
         result = multiply(num1,num2)
 
     elif char == '/': 
-        while num2 <= 0 : 
+        while num2 == 0 : 
             print("You can't divide by zero. Enter a valid number: ")
             num2 = get_number()
         result = divide(num1,num2)  
     elif char == '**': 
         result = exp(num1,num2) 
-    string = f"{num1} {char} {num2} = {result}"
+    string = f"{num1} {char} {num2} = {round(result,2)}"
     history.append(string)
     print(f"Result: {round(result, 2)}")
 
-menu()
 
- 
+main()
 
-# New Objectives: 
-    # 1. List some options such as Calculate, History etc.. // Done
-    # 2. Users should be able to view the history without even jumping to calculations // Done
-    # 3. Users should be able to edit the history (delete)
     
