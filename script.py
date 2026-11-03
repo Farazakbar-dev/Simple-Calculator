@@ -28,8 +28,11 @@ def exp(num1, num2):
 # Main function
 def main(): 
     while True: 
-        option = input(f"Select one option from {options_list}").strip().lower()
-
+        
+        print("Please select an option: ")
+        for sr, entry in enumerate(options_list, 1): 
+            print(f"{sr}: {entry} (or just '{entry[0]}')")
+        option = input().strip().lower()
         if option == "calculate" or option == 'c': 
             calculate()
         elif option == "history" or option == 'h': 
@@ -42,12 +45,12 @@ def main():
                 
     
 # function to get number from user
-def get_number(): 
+def get_number(prompt): 
     while True: 
         try: 
-            number = float(input("Enter number: "))
+            number = float(input(f"Enter {prompt} number : "))
         except ValueError: 
-            print("Invalid Input! Enter a positive number")
+            print("Invalid Input! Enter a valid number")
         else: 
             print(f"You entered {number} as input")
             break
@@ -66,8 +69,10 @@ def get_operator():
 # history functions prints history
 def show_history(): 
     if history: 
+        print("====================\n")
         for num, entry in enumerate(history, 1): 
-            print (f"{num}: {entry}")
+            print(f"{num}: {entry}")
+        print("\n====================")
     else: 
         print("No history!")
         
@@ -75,8 +80,8 @@ def show_history():
 def calculate():
     
     char = get_operator() 
-    num1 = get_number()
-    num2 = get_number()
+    num1 = get_number("First")
+    num2 = get_number("Second")
     
     if char == '+': 
         result = add(num1,num2)
@@ -89,14 +94,18 @@ def calculate():
 
     elif char == '/': 
         while num2 == 0 : 
-            print("You can't divide by zero. Enter a valid number: ")
-            num2 = get_number()
+            print("You can't divide by zero. Enter a valid number. ")
+            num2 = get_number("Denominator")
         result = divide(num1,num2)  
     elif char == '**': 
+        while (num1 < 0 and num2 % 1 != 0) or (num1 == 0 and num2 < 0): 
+            print(f"{num1} can't be raised to {num2} power.")
+            num1 = get_number("Base")
+            num2 = get_number("Power")
         result = exp(num1,num2) 
-    string = f"{num1} {char} {num2} = {round(result,2)}"
+    string = f"{num1} {char} {num2} = {round(result, 2)}"
     history.append(string)
-    print(f"Result: {round(result, 2)}")
+    print(f"=============\nResult: {round(result, 2)}\n=================\n")
 
 
 main()
